@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Reimbursement Form Web App
 
 A Node.js Express application for managing employee reimbursement requests with three roles: Employee, Manager, and Admin.
@@ -52,3 +53,6 @@ A Node.js Express application for managing employee reimbursement requests with 
 ---
 
 See code files for implementation details.
+=======
+# Reimbursement-project
+>>>>>>> a1444a0c6edb77e2036b0b803993d12c8fb0ea0d
