@@ -1,0 +1,255 @@
+@import url('https://fonts.googleapis.com/css?family=Inter:400,500,700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap');
+
+body {
+  font-family: 'Inter', 'Roboto', 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.admin-page,
+.manager-page {
+  background-color: #E5E5E5;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  width: 60vw;
+  max-width: 900px;
+  margin: 20px auto;
+  background: #ffffff;
+  padding: 18px 24px 18px 24px;
+  border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(23, 23, 24, 0.25), 0 4px 16px rgba(236, 72, 153, 0.15);
+  min-height: unset;
+}
+
+h1,
+h2 {
+  color: #161516;
+  font-family: 'Inter', 'Roboto', 'Segoe UI', Arial, sans-serif;
+  font-weight: 500;
+  margin-bottom: 22px;
+  font-size: 2rem;
+  letter-spacing: 0.5px;
+}
+
+.dashboard-cards {
+  display: flex;
+  gap: 22px;
+  margin-bottom: 30px;
+  justify-content: flex-start;
+}
+
+.dashboard-card {
+  width: 120px;
+  height: 80px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(15, 15, 15, 0.2), 0 3px 12px rgba(11, 11, 11, 0.15);
+  padding: 6px 8px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 30px;
+  color: #fff;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 120px;
+  min-width: 130px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(12, 12, 13, 0.3), 0 4px 16px rgba(25, 23, 24, 0.2);
+}
+
+.dashboard-card .label {
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+  opacity: 0.9;
+  margin-top: 8px;
+}
+
+.dashboard-card.black {
+  background: #23272f;
+}
+
+.dashboard-card.green {
+  background: linear-gradient(135deg, #8EE88D, #4CAF50);
+}
+
+.dashboard-card.yellow {
+  background: linear-gradient(135deg, #f59e2b, #FF9800);
+}
+
+.dashboard-card.red {
+  background: linear-gradient(135deg, #f34141, #E84C3D);
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 15px;
+  background: #ffffff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(147, 51, 234, 0.1);
+}
+
+th,
+td {
+  border-bottom: 1px solid rgba(216, 180, 254, 0.3);
+  padding: 12px 10px;
+  font-size: 15px;
+  font-family: 'Inter', 'Roboto', 'Segoe UI', Arial, sans-serif;
+  word-break: break-word;
+  text-align: left;
+}
+
+th,
+.admin-page table th,
+.manager-page table th {
+  background: linear-gradient(135deg, rgba(214, 212, 215, 0.95), rgba(223, 205, 212, 0.95));
+  color: #0d0c0d;
+  font-weight: 550;
+  font-size: 13px;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+.paidbut {
+  padding: 3px 4px;
+}
+
+.status-pending {
+  background: #ffb300;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 2px 8px;
+  display: inline-block;
+  font-size: 11px;
+  margin-left: 5px;
+}
+
+.status-approved {
+  background: #2ecc40;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 5px;
+  padding: 3px 4px;
+  display: inline-block;
+  font-size: 11px;
+  margin-left: 5px;
+}
+
+.status-rejected {
+  background: #e74c3c;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 5px;
+  padding: 3px 4px;
+  display: inline-block;
+  font-size: 11px;
+  margin-left: 5px;
+}
+
+.status-paid {
+  background: #2196f3;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 5px;
+  padding: 3px 4px;
+  display: inline-block;
+  font-size: 11px;
+  margin-left: 5px;
+}
+
+.status-unpaid {
+  background: #757575;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 2px 8px;
+  display: inline-block;
+  font-size: 0.8rem;
+}
+
+button {
+  background: linear-gradient(90deg, #007bff 0%, #43c6ac 100%);
+  color: #fff;
+  border: none;
+  padding: 5px 7px;
+  border-radius: 7px;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(29, 31, 30, 0.08);
+  transition: background 0.2s, transform 0.2s;
+}
+
+button:hover {
+  background: linear-gradient(90deg, #43c6ac 0%, #007bff 100%);
+  color: #fff;
+  transform: translateY(-1px) scale(1.03);
+}
+
+@media (max-width: 900px) {
+  .container {
+    max-width: 99vw;
+    padding: 6px 2px;
+    border-radius: 10px;
+  }
+
+  .dashboard-cards {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  h1,
+  h2 {
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+
+  th,
+  td {
+    font-size: 0.7rem;
+    padding: 4px 1px;
+  }
+}
+
+/* Responsive adjustments for Admin and Manager pages */
+@media (max-width: 600px) {
+
+  .admin-page .container,
+  .manager-page .container {
+    width: 100%;
+    padding: 12px 8px;
+    border-radius: 8px;
+  }
+
+  .admin-page .dashboard-cards,
+  .manager-page .dashboard-cards {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .admin-page th,
+  .admin-page td,
+  .manager-page th,
+  .manager-page td {
+    padding: 6px 4px;
+  }
+}

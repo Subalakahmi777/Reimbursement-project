@@ -1,0 +1,30 @@
+[
+    {
+        "employeeId": "EMP001",
+        "password": "password123",
+        "name": "John Doe",
+        "role": "employee",
+        "department": "IT"
+    },
+    {
+        "employeeId": "EMP002",
+        "password": "pass456",
+        "name": "Jane Smith",
+        "role": "employee",
+        "department": "Finance"
+    },
+    {
+        "employeeId": "MGR001",
+        "password": "manager123",
+        "name": "Robert Johnson",
+        "role": "manager",
+        "department": "IT"
+    },
+    {
+        "employeeId": "ADMIN001",
+        "password": "admin123",
+        "name": "Sarah Williams",
+        "role": "admin",
+        "department": "HR"
+    }
+]

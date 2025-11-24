@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Manager Dashboard</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body class="manager-page">
+  <div class="container">
+    <h3>Manager Dashboard </h3>
+    <div class="dashboard-cards">
+      <div class="dashboard-card black">
+        5000₹
+        <div class="label">Reimbursement</div>
+      </div>
+      <div class="dashboard-card green">
+        <%= requests.filter(r=> r.status === 'Approved').length %>
+          <div class="label">Approved Requests</div>
+      </div>
+      <div class="dashboard-card yellow">
+        <%= requests.filter(r=> r.status === 'Pending').length %>
+          <div class="label">Pending Requests</div>
+      </div>
+      <div class="dashboard-card red">
+        <%= requests.filter(r=> r.status === 'Rejected').length %>
+          <div class="label">Rejected Requests</div>
+      </div>
+    </div>
+    <table>
+      <tr>
+        <th>Employee Name</th>
+        <th>Employee Id</th>
+        <th>Reason</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Amount</th>
+        <th>Actions</th>
+      </tr>
+      <% requests.forEach(function(r) { %>
+        <tr>
+          <td>
+            <%= r.employeeName %>
+          </td>
+          <td>
+            <%= r.employeeId %>
+          </td>
+          <td>
+            <%= r.reason %>
+          </td>
+          <td>
+            <%= r.date %>
+          </td>
+          <td><span class="status-<%= r.status.toLowerCase() %>">
+              <%= r.status %>
+            </span></td>
+          <td>
+            <%= r.amount %>
+          </td>
+          <td>
+            <% if (r.status==='Pending' ) { %>
+              <form action="/manager/approve/<%= r.id %>" method="POST" style="display:inline;"><button
+                  type="submit">Approve</button></form>
+              <form action="/manager/reject/<%= r.id %>" method="POST" style="display:inline;"><button
+                  type="submit">Reject</button></form>
+              <% } else { %>
+                <span>-</span>
+                <% } %>
+          </td>
+        </tr>
+        <% }); %>
+    </table>
+  </div>
+</body>
+
+</html>
