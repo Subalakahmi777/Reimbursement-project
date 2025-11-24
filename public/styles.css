@@ -206,27 +206,62 @@ button:hover {
 }
 
 @media (max-width: 900px) {
+
+  .admin-page,
+  .manager-page {
+    padding: 10px;
+  }
+
   .container {
-    max-width: 99vw;
-    padding: 6px 2px;
+    width: 95vw;
+    max-width: 95vw;
+    padding: 15px 10px;
     border-radius: 10px;
+    margin: 10px auto;
   }
 
   .dashboard-cards {
-    flex-direction: column;
-    gap: 6px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .dashboard-card {
+    min-width: 110px;
+    min-height: 100px;
+    flex: 0 0 calc(50% - 10px);
   }
 
   h1,
   h2 {
-    font-size: 1rem;
-    margin-bottom: 8px;
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+  }
+
+  /* Make table scrollable on mobile */
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
   }
 
   th,
   td {
+    font-size: 0.75rem;
+    padding: 8px 6px;
+    min-width: 80px;
+  }
+
+  th:first-child,
+  td:first-child {
+    min-width: 100px;
+  }
+
+  button {
     font-size: 0.7rem;
-    padding: 4px 1px;
+    padding: 4px 6px;
   }
 }
 
@@ -235,15 +270,20 @@ button:hover {
 
   .admin-page .container,
   .manager-page .container {
-    width: 100%;
+    width: 95vw;
     padding: 12px 8px;
     border-radius: 8px;
   }
 
   .admin-page .dashboard-cards,
   .manager-page .dashboard-cards {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 8px;
+  }
+
+  .dashboard-card {
+    flex: 0 0 calc(50% - 8px);
   }
 
   .admin-page th,
@@ -251,5 +291,11 @@ button:hover {
   .manager-page th,
   .manager-page td {
     padding: 6px 4px;
+    font-size: 0.7rem;
+  }
+
+  h1,
+  h2 {
+    font-size: 1.1rem;
   }
 }
