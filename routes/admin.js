@@ -12,12 +12,12 @@ router.get('/', (req, res) => {
 });
 
 // Mark as Paid
-router.post('/paid/:id', (req, res) => {
+router.post('/markPaid/:id', (req, res) => {
   const data = JSON.parse(fs.readFileSync(dataFile));
   const reqId = parseInt(req.params.id);
   const idx = data.findIndex(r => r.id === reqId);
   if (idx !== -1) {
-    data[idx].paymentStatus = 'Paid';
+    data[idx].paid = true;
     fs.writeFileSync(dataFile, JSON.stringify(data, null, 2));
   }
   res.redirect('/admin');
@@ -29,7 +29,7 @@ router.post('/unpaid/:id', (req, res) => {
   const reqId = parseInt(req.params.id);
   const idx = data.findIndex(r => r.id === reqId);
   if (idx !== -1) {
-    data[idx].paymentStatus = 'Unpaid';
+    data[idx].paid = false;
     fs.writeFileSync(dataFile, JSON.stringify(data, null, 2));
   }
   res.redirect('/admin');
