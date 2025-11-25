@@ -1,10 +1,7 @@
 const express = require('express');
-const path = require('path');
-const fs = require('fs');
 const router = express.Router();
+const Reimbursement = require('../models/Reimbursement');
 const { isAuthenticated } = require('./auth');
-
-const dataFile = path.join(__dirname, '../data/reimbursements.json');
 
 // Employee form page - Protected route (requires authentication)
 router.get('/reimbursement', isAuthenticated, (req, res) => {
@@ -12,7 +9,7 @@ router.get('/reimbursement', isAuthenticated, (req, res) => {
 });
 
 // Handle form submission - Protected route (requires authentication)
-router.post('/submit', isAuthenticated, (req, res) => {
+router.post('/submit', isAuthenticated, async (req, res) => {
   const {
     employeeName,
     employeeId,
@@ -23,25 +20,28 @@ router.post('/submit', isAuthenticated, (req, res) => {
     remarks
   } = req.body;
   const receipt = req.file ? req.file.filename : null;
-  const newRequest = {
-    id: Date.now(),
-    employeeName,
-    employeeId,
-    department,
-    amount,
-    reason,
-    date,
-    remarks,
-    receipt,
-    status: 'Pending',
-    submissionDate: new Date().toISOString(),
-    managerDecision: '',
-    paymentStatus: 'Unpaid'
-  };
-  const data = JSON.parse(fs.readFileSync(dataFile));
-  data.push(newRequest);
-  fs.writeFileSync(dataFile, JSON.stringify(data, null, 2));
-  res.render('employee', { success: true });
+
+  try {
+    const newReimbursement = new Reimbursement({
+      employeeName,
+      employeeId,
+      department,
+      amount,
+      reason,
+      date,
+      remarks,
+      receipt,
+      status: 'Pending',
+      managerDecision: '',
+      paymentStatus: 'Unpaid'
+    });
+
+    await newReimbursement.save();
+    res.render('employee', { success: true });
+  } catch (error) {
+    console.error('Submission error:', error);
+    res.render('employee', { success: false, error: 'Failed to submit reimbursement' });
+  }
 });
 
 module.exports = router;

@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const fs = require('fs');
-const path = require('path');
+const User = require('../models/User');
 
 // Middleware to check if user is authenticated
 const isAuthenticated = (req, res, next) => {
@@ -12,28 +11,20 @@ const isAuthenticated = (req, res, next) => {
 };
 
 // POST /login - Handle login authentication
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
   const { employeeId, password } = req.body;
 
   // Validate input
   if (!employeeId || !password) {
-    return res.status(400).json({ 
-      success: false, 
-      message: 'Employee ID and Password are required' 
+    return res.status(400).json({
+      success: false,
+      message: 'Employee ID and Password are required'
     });
   }
 
-  // Read users from JSON file
-  const usersPath = path.join(__dirname, '../data/users.json');
-  
   try {
-    const usersData = fs.readFileSync(usersPath, 'utf8');
-    const users = JSON.parse(usersData);
-
     // Find user with matching credentials
-    const user = users.find(
-      u => u.employeeId === employeeId && u.password === password
-    );
+    const user = await User.findOne({ employeeId, password });
 
     if (user) {
       // Create session
@@ -45,23 +36,23 @@ router.post('/login', (req, res) => {
       };
 
       // Send success response
-      return res.json({ 
-        success: true, 
+      return res.json({
+        success: true,
         message: 'Login successful',
         redirectUrl: '/reimbursement'
       });
     } else {
       // Invalid credentials
-      return res.status(401).json({ 
-        success: false, 
-        message: 'Invalid Employee ID or Password' 
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid Employee ID or Password'
       });
     }
   } catch (error) {
     console.error('Login error:', error);
-    return res.status(500).json({ 
-      success: false, 
-      message: 'Server error. Please try again.' 
+    return res.status(500).json({
+      success: false,
+      message: 'Server error. Please try again.'
     });
   }
 });

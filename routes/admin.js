@@ -1,36 +1,40 @@
 const express = require('express');
-const path = require('path');
-const fs = require('fs');
 const router = express.Router();
-
-const dataFile = path.join(__dirname, '../data/reimbursements.json');
+const Reimbursement = require('../models/Reimbursement');
 
 // Admin panel
-router.get('/', (req, res) => {
-  const data = JSON.parse(fs.readFileSync(dataFile));
-  res.render('admin', { requests: data });
+router.get('/', async (req, res) => {
+  try {
+    const requests = await Reimbursement.find().sort({ createdAt: -1 });
+    res.render('admin', { requests });
+  } catch (error) {
+    console.error('Error fetching reimbursements:', error);
+    res.render('admin', { requests: [] });
+  }
 });
 
 // Mark as Paid
-router.post('/markPaid/:id', (req, res) => {
-  const data = JSON.parse(fs.readFileSync(dataFile));
-  const reqId = parseInt(req.params.id);
-  const idx = data.findIndex(r => r.id === reqId);
-  if (idx !== -1) {
-    data[idx].paid = true;
-    fs.writeFileSync(dataFile, JSON.stringify(data, null, 2));
+router.post('/markPaid/:id', async (req, res) => {
+  try {
+    await Reimbursement.findByIdAndUpdate(req.params.id, {
+      paid: true,
+      paymentStatus: 'Paid'
+    });
+  } catch (error) {
+    console.error('Error marking as paid:', error);
   }
   res.redirect('/admin');
 });
 
 // Mark as Unpaid (Cancel)
-router.post('/unpaid/:id', (req, res) => {
-  const data = JSON.parse(fs.readFileSync(dataFile));
-  const reqId = parseInt(req.params.id);
-  const idx = data.findIndex(r => r.id === reqId);
-  if (idx !== -1) {
-    data[idx].paid = false;
-    fs.writeFileSync(dataFile, JSON.stringify(data, null, 2));
+router.post('/unpaid/:id', async (req, res) => {
+  try {
+    await Reimbursement.findByIdAndUpdate(req.params.id, {
+      paid: false,
+      paymentStatus: 'Unpaid'
+    });
+  } catch (error) {
+    console.error('Error marking as unpaid:', error);
   }
   res.redirect('/admin');
 });

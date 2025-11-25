@@ -1,38 +1,40 @@
 const express = require('express');
-const path = require('path');
-const fs = require('fs');
 const router = express.Router();
-
-const dataFile = path.join(__dirname, '../data/reimbursements.json');
+const Reimbursement = require('../models/Reimbursement');
 
 // Manager dashboard
-router.get('/', (req, res) => {
-  const data = JSON.parse(fs.readFileSync(dataFile));
-  res.render('manager', { requests: data });
+router.get('/', async (req, res) => {
+  try {
+    const requests = await Reimbursement.find().sort({ createdAt: -1 });
+    res.render('manager', { requests });
+  } catch (error) {
+    console.error('Error fetching reimbursements:', error);
+    res.render('manager', { requests: [] });
+  }
 });
 
 // Approve request
-router.post('/approve/:id', (req, res) => {
-  const data = JSON.parse(fs.readFileSync(dataFile));
-  const reqId = parseInt(req.params.id);
-  const idx = data.findIndex(r => r.id === reqId);
-  if (idx !== -1) {
-    data[idx].status = 'Approved';
-    data[idx].managerDecision = 'Approved';
-    fs.writeFileSync(dataFile, JSON.stringify(data, null, 2));
+router.post('/approve/:id', async (req, res) => {
+  try {
+    await Reimbursement.findByIdAndUpdate(req.params.id, {
+      status: 'Approved',
+      managerDecision: 'Approved'
+    });
+  } catch (error) {
+    console.error('Error approving request:', error);
   }
   res.redirect('/manager');
 });
 
 // Reject request
-router.post('/reject/:id', (req, res) => {
-  const data = JSON.parse(fs.readFileSync(dataFile));
-  const reqId = parseInt(req.params.id);
-  const idx = data.findIndex(r => r.id === reqId);
-  if (idx !== -1) {
-    data[idx].status = 'Rejected';
-    data[idx].managerDecision = 'Rejected';
-    fs.writeFileSync(dataFile, JSON.stringify(data, null, 2));
+router.post('/reject/:id', async (req, res) => {
+  try {
+    await Reimbursement.findByIdAndUpdate(req.params.id, {
+      status: 'Rejected',
+      managerDecision: 'Rejected'
+    });
+  } catch (error) {
+    console.error('Error rejecting request:', error);
   }
   res.redirect('/manager');
 });

@@ -1,10 +1,11 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const multer = require('multer');
-const fs = require('fs');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const connectDB = require('./config/database');
 
 const employeeRoutes = require('./routes/employee');
 const managerRoutes = require('./routes/manager');
@@ -12,7 +13,10 @@ const adminRoutes = require('./routes/admin');
 const { router: authRouter } = require('./routes/auth');
 
 const app = express();
-const PORT = 3005;
+const PORT = process.env.PORT || 3005;
+
+// Connect to MongoDB
+connectDB();
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -20,7 +24,7 @@ app.set('views', path.join(__dirname, 'views'));
 // Middleware
 app.use(cookieParser());
 app.use(session({
-  secret: 'reimbursement-secret-key-2024',
+  secret: process.env.SESSION_SECRET || 'reimbursement-secret-key-2024',
   resave: false,
   saveUninitialized: false,
   cookie: {
@@ -45,12 +49,6 @@ const upload = multer({ dest: path.join(__dirname, 'public', 'uploads') });
 app.use('/', upload.single('receipt'), employeeRoutes);
 app.use('/manager', managerRoutes);
 app.use('/admin', adminRoutes);
-
-// Ensure data directory and file exist
-const dataDir = path.join(__dirname, 'data');
-const dataFile = path.join(dataDir, 'reimbursements.json');
-if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir);
-if (!fs.existsSync(dataFile)) fs.writeFileSync(dataFile, '[]');
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
